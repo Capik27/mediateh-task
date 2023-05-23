@@ -1,8 +1,10 @@
-<template></template>
+<template>
+	<button>Купить</button>
+</template>
 
 <script>
 export default {
-	name: "BuyButton",
+	name: "BButton",
 	components: {
 		//
 	},
