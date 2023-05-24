@@ -1,13 +1,16 @@
 <template>
 	<section>
 		<div class="container">
-			<div class="content">
+			<div class="content" v-if="items">
 				<h3 class="content_title">Новинки</h3>
-				<div class="content_items" v-if="items">
+				<div class="content_items">
 					<ItemCard v-for="item in items" :key="item.id" :item="item" />
 				</div>
-				<div class="loader" v-else />
 			</div>
+			<div class="content_load" v-if="!items && !error">
+				<div class="loader" />
+			</div>
+			<div v-if="error">{{ error }}</div>
 		</div>
 	</section>
 </template>
@@ -22,6 +25,7 @@ export default defineComponent({
 	},
 	setup() {
 		const items = ref();
+		const error = ref();
 
 		const fetchItems = async () => {
 			const url = "https://dummyjson.com/products?limit=10";
@@ -29,9 +33,8 @@ export default defineComponent({
 			if (res.ok) {
 				let json = await res.json();
 				items.value = json.products;
-				console.log("json", json);
 			} else {
-				throw Error(res.status);
+				error.value = "Error: " + res.status;
 			}
 		};
 
@@ -42,18 +45,27 @@ export default defineComponent({
 			}, delay);
 		});
 
-		return { items };
+		return { items, error };
 	},
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "@/utils/colorVars.scss";
 @import "@/utils/loader.scss";
 
 .content {
+	max-width: 1264px;
+
+	&_load {
+		height: 100vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
 	&_title {
-		color: #051d36;
+		color: $COLOR_darkblue;
 		font-size: 40px;
 		font-weight: 500;
 		text-align: left;
@@ -62,15 +74,42 @@ export default defineComponent({
 
 	&_items {
 		display: flex;
+		justify-content: center;
 		flex-wrap: wrap;
 
 		// display: grid;
 		// grid-template-columns: repeat(auto-fit, minmax(209px, 209px));
 		// justify-content: center;
+	}
+}
 
-		// background-color: $COLOR_white;
-		// width: 100%;
-		// height: 400px;
+@media (max-width: 1440px) {
+	.content {
+		max-width: 1054px;
+	}
+}
+@media (max-width: 1200px) {
+	.content {
+		max-width: 844px;
+	}
+}
+@media (max-width: 960px) {
+	.content {
+		max-width: 634px;
+	}
+}
+@media (max-width: 720px) {
+	.content {
+		max-width: 424px;
+	}
+}
+@media (max-width: 480px) {
+	.content {
+		max-width: 210px;
+
+		&_title {
+			text-align: center;
+		}
 	}
 }
 </style>

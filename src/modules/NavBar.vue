@@ -18,7 +18,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "@/utils/colorVars.scss";
 .navbar {
 	width: 100%;
@@ -26,7 +26,7 @@ export default {
 	background-color: $COLOR_white;
 
 	&_wrapper {
-		max-width: 1920px;
+		max-width: 1264px;
 		margin: auto;
 		width: 100%;
 		height: 83px;
@@ -34,9 +34,32 @@ export default {
 		align-items: center;
 		justify-content: flex-end;
 	}
+}
 
-	// &_cart {
-	// 	justify-self: flex-end;
-	// }
+@media (max-width: 1440px) {
+	.navbar_wrapper {
+		max-width: 1054px;
+	}
+}
+@media (max-width: 1200px) {
+	.navbar_wrapper {
+		max-width: 844px;
+	}
+}
+@media (max-width: 960px) {
+	.navbar_wrapper {
+		max-width: 634px;
+	}
+}
+@media (max-width: 720px) {
+	.navbar_wrapper {
+		max-width: 424px;
+	}
+}
+@media (max-width: 480px) {
+	.navbar_wrapper {
+		max-width: 210px;
+		justify-content: center;
+	}
 }
 </style>

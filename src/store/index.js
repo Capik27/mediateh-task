@@ -8,9 +8,12 @@ export default createStore({
 	},
 	getters: {},
 	mutations: {
-		// setUserAuth(state, payload) {
-		// 	state.auth.currentUser = payload.value;
-		// },
+		addItem(state, payload) {
+			state.cart.items.push(payload);
+		},
+		reset(state) {
+			state.cart.items.length = 0;
+		},
 	},
 	actions: {},
 });
