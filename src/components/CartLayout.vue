@@ -1,7 +1,6 @@
 <template>
 	<div class="cart" @click="reset">
 		<img src="@/assets/cart.png" class="cart_icon" alt="cart" />
-
 		<span class="cart_sum">{{ sumPrice }} $</span>
 		<RedBudge :value="itemCount" />
 	</div>
@@ -75,6 +74,7 @@ export default defineComponent({
 	}
 
 	&_sum {
+		width: 60px;
 		font-style: normal;
 		font-weight: 400;
 		font-size: 16px;

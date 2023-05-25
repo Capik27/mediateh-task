@@ -96,7 +96,6 @@ export default defineComponent({
 	}
 
 	&_preview {
-		width: 145px;
 		height: 145px;
 		overflow: hidden;
 		img {
@@ -119,6 +118,7 @@ export default defineComponent({
 		&-number {
 			color: $COLOR_greyligth;
 			font-weight: 400;
+			font-size: 14px;
 		}
 	}
 
