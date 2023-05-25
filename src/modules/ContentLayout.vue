@@ -8,9 +8,11 @@
 				</div>
 			</div>
 			<div class="content_load" v-if="!items && !error">
-				<div class="loader" />
+				<LoadSpinner />
 			</div>
-			<div v-if="error">{{ error }}</div>
+			<div class="content_load" v-if="error">
+				<h2>{{ error }}</h2>
+			</div>
 		</div>
 	</section>
 </template>
@@ -18,10 +20,12 @@
 <script>
 import { defineComponent, ref, onBeforeMount } from "vue";
 import ItemCard from "@/components/ItemCard.vue";
+import LoadSpinner from "@/components/LoadSpinner.vue";
 export default defineComponent({
 	name: "ContentLayout",
 	components: {
 		ItemCard,
+		LoadSpinner,
 	},
 	setup() {
 		const items = ref();
@@ -52,7 +56,6 @@ export default defineComponent({
 
 <style lang="scss">
 @import "@/utils/colorVars.scss";
-@import "@/utils/loader.scss";
 
 .content {
 	max-width: 1264px;
@@ -62,6 +65,7 @@ export default defineComponent({
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		color: $COLOR_darkblue;
 	}
 
 	&_title {
@@ -74,8 +78,9 @@ export default defineComponent({
 
 	&_items {
 		display: flex;
-		justify-content: center;
+		justify-content: flex-start;
 		flex-wrap: wrap;
+		background-color: $COLOR_white;
 
 		// display: grid;
 		// grid-template-columns: repeat(auto-fit, minmax(209px, 209px));

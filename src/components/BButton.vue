@@ -23,8 +23,6 @@ export default {
 	align-items: center;
 	padding: 10px 16px;
 	gap: 12px;
-	width: 112px;
-	height: 40px;
 
 	font-family: "Open Sans", sans-serif;
 	font-style: normal;
