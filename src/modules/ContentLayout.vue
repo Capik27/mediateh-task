@@ -94,11 +94,6 @@ export default defineComponent({
 
 		gap: 1px;
 		padding-bottom: 60px;
-		// background-color: $COLOR_white;
-
-		// display: grid;
-		// grid-template-columns: repeat(auto-fit, minmax(209px, 275px));
-		// justify-content: center;
 	}
 }
 
