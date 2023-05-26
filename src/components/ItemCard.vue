@@ -16,24 +16,32 @@
 		</div>
 		<div class="card_title">{{ item.title }}</div>
 		<div class="card_price-info">
-			<div class="card_discount" v-if="item.discountPercentage > 0">
-				<div class="card_discount-price">
-					<span>{{ Math.round(item.price) }} $</span>
-					<div class="card_discount-line"></div>
+			<div class="card_discount">
+				<div class="card_discount" v-if="item.discountPercentage > 0">
+					<div class="card_discount-price">
+						<span>{{ nws(Math.round(item.price)) }} $</span>
+						<div class="card_discount-line"></div>
+					</div>
+					<RedBudge
+						:value="`– ${Math.round(item.discountPercentage)}%`"
+						type="cube"
+					/>
 				</div>
-				<RedBudge
-					:value="`-${Math.round(item.discountPercentage)}%`"
-					type="cube"
-				/>
 			</div>
-			<div class="card_price">
+			<div
+				:class="
+					item.discountPercentage ? 'card_price  card_price__hot' : 'card_price'
+				"
+			>
 				<!-- eslint-disable no-mixed-spaces-and-tabs  -->
 				{{
 					item.discountPercentage
-						? Math.round(
-								item.price - (item.discountPercentage * item.price) / 100
+						? nws(
+								Math.round(
+									item.price - (item.discountPercentage * item.price) / 100
+								)
 						  )
-						: Math.round(item.price)
+						: nws(Math.round(item.price))
 				}}
 				<!-- eslint-disable no-mixed-spaces-and-tabs  -->
 				$
@@ -46,6 +54,7 @@
 <script>
 import { defineComponent } from "vue";
 import { useStore } from "vuex";
+import numberWithSpaces from "@/utils/numberWithSpaces.js";
 import BButton from "@/components/BButton.vue";
 import RedBudge from "@/components/RedBudge.vue";
 export default defineComponent({
@@ -63,17 +72,19 @@ export default defineComponent({
 	setup(props) {
 		const store = useStore();
 
+		const nws = numberWithSpaces;
 		const addItem = () => {
 			store.commit("addItem", props.item);
 		};
 
-		return { addItem };
+		return { addItem, nws };
 	},
 });
 </script>
 
 <style lang="scss" scoped>
 @import "@/utils/colorVars.scss";
+@import "@/utils/fontInter.scss";
 .card {
 	display: flex;
 	flex-direction: column;
@@ -85,7 +96,8 @@ export default defineComponent({
 	padding: 15px 15px 24px 15px;
 	word-break: break-word;
 
-	width: 210px;
+	min-width: 185px;
+	width: calc((100% / 6) - 1px);
 
 	border: 1px solid transparent;
 
@@ -96,6 +108,7 @@ export default defineComponent({
 	}
 
 	&_preview {
+		// width: 141.52px;
 		height: 145px;
 		overflow: hidden;
 		img {
@@ -119,16 +132,31 @@ export default defineComponent({
 			color: $COLOR_greyligth;
 			font-weight: 400;
 			font-size: 14px;
+			line-height: 20px;
 		}
 	}
 
 	&_title {
-		height: 40px;
+		height: 60px;
+		overflow: hidden;
 		font-family: "Open Sans", sans-serif;
 		font-size: 15px;
 		font-weight: 600;
 		line-height: 20px;
 		letter-spacing: 0px;
+
+		-ms-text-overflow: ellipsis;
+		-o-text-overflow: ellipsis;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		-ms-line-clamp: 3;
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+		display: -webkit-box;
+		display: box;
+		word-wrap: break-word;
+		-webkit-box-orient: vertical;
+		box-orient: vertical;
 	}
 
 	&_info {
@@ -136,32 +164,40 @@ export default defineComponent({
 	}
 
 	&_price {
+		padding-top: 4px;
 		font-size: 26px;
 		font-weight: 500;
 		line-height: 32px;
 		letter-spacing: 0.1rem;
+
+		&__hot {
+			color: $COLOR_red;
+		}
 	}
 
 	&_discount {
 		display: flex;
-		gap: 12px;
+		height: 20px;
+		gap: 8px;
 
 		&-price {
 			display: flex;
 			align-items: center;
 			position: relative;
-
 			span {
+				font-size: 14px;
+				font-weight: 400;
 				color: $COLOR_greyligth;
 				line-height: 20px;
+				letter-spacing: 0.05rem;
 			}
 		}
 		&-line {
 			position: absolute;
 			justify-self: center;
-			width: 105%;
-			top: 50%;
-			left: -1px;
+			width: 100%;
+			top: 49%;
+			left: 0;
 			border-top: 1px solid $COLOR_red;
 		}
 	}

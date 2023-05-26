@@ -21,21 +21,39 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/utils/colorVars.scss";
+%fbox {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
+}
 .budge {
+	@extend %fbox;
 	height: 24px;
 	width: 24px;
 	border-radius: 50%;
-	line-height: 24px;
+	font-style: normal;
+	font-weight: 500;
 	font-size: 11px;
+	line-height: 24px;
+	vertical-align: baseline;
 	background-color: $COLOR_red;
 	color: $COLOR_white;
 
 	&_cube {
+		@extend %fbox;
 		background-color: $COLOR_red;
 		color: $COLOR_white;
-		font-weight: 700;
 		border-radius: 4px;
-		padding: 4px 6px 4px 6px;
+		padding: 0 6px 0 6px;
+
+		span {
+			font-size: 11px;
+			line-height: 20px;
+			font-weight: 700;
+			font-style: normal;
+			text-transform: uppercase;
+		}
 	}
 }
 </style>

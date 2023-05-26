@@ -1,12 +1,13 @@
 <template>
 	<div class="cart" @click="reset">
 		<img src="@/assets/cart.png" class="cart_icon" alt="cart" />
-		<span class="cart_sum">{{ sumPrice }} $</span>
+		<span class="cart_sum">{{ nws(sumPrice) }} $</span>
 		<RedBudge :value="itemCount" />
 	</div>
 </template>
 
 <script>
+import numberWithSpaces from "@/utils/numberWithSpaces.js";
 import RedBudge from "@/components/RedBudge.vue";
 import { defineComponent, computed } from "vue";
 import { useStore } from "vuex";
@@ -18,6 +19,7 @@ export default defineComponent({
 	setup() {
 		const store = useStore();
 
+		const nws = numberWithSpaces;
 		const reset = () => {
 			store.commit("reset");
 		};
@@ -39,7 +41,7 @@ export default defineComponent({
 			}, 0)
 		);
 
-		return { sumPrice, itemCount, reset };
+		return { sumPrice, itemCount, reset, nws };
 	},
 });
 </script>
@@ -59,6 +61,7 @@ export default defineComponent({
 	color: $COLOR_darkblue;
 
 	font-weight: 400;
+	font-style: normal;
 	font-size: 16px;
 	line-height: 24px;
 
@@ -74,7 +77,7 @@ export default defineComponent({
 	}
 
 	&_sum {
-		width: 60px;
+		min-width: 60px;
 		font-style: normal;
 		font-weight: 400;
 		font-size: 16px;
