@@ -36,6 +36,16 @@ export default defineComponent({
 			let res = await fetch(url);
 			if (res.ok) {
 				let json = await res.json();
+
+				// мутация для проверки разных кейсов
+				json.products[0].discountPercentage = 0;
+				json.products[0].title =
+					"Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. ";
+				json.products[2].discountPercentage = 0;
+				json.products[4].title =
+					"Супер длинное название, чтобы не влезало в эту сроку, однако этого может не достаточно ;) ";
+				//
+
 				items.value = json.products;
 			} else {
 				error.value = "Error: " + res.status;
@@ -56,6 +66,7 @@ export default defineComponent({
 
 <style lang="scss">
 @import "@/utils/colorVars.scss";
+@import "@/utils/fontInter.scss";
 
 .content {
 	max-width: 1264px;
@@ -80,40 +91,56 @@ export default defineComponent({
 		display: flex;
 		justify-content: flex-start;
 		flex-wrap: wrap;
-		background-color: $COLOR_white;
 
-		// display: grid;
-		// grid-template-columns: repeat(auto-fit, minmax(209px, 209px));
-		// justify-content: center;
+		gap: 1px;
+		padding-bottom: 60px;
 	}
 }
 
-@media (max-width: 1440px) {
+@media (max-width: 1320px) {
 	.content {
-		max-width: 1054px;
+		padding: 0 20px;
+		.card {
+			width: calc((100% / 5) - 1px);
+		}
 	}
 }
-@media (max-width: 1200px) {
+
+@media (max-width: 990px) {
 	.content {
-		max-width: 844px;
+		padding: 0 20px;
+		.card {
+			width: calc((100% / 4) - 1px);
+		}
 	}
 }
-@media (max-width: 960px) {
+
+@media (max-width: 805px) {
 	.content {
-		max-width: 634px;
+		padding: 0 20px;
+		.card {
+			width: calc((100% / 3) - 1px);
+		}
 	}
 }
-@media (max-width: 720px) {
+@media (max-width: 620px) {
 	.content {
-		max-width: 424px;
+		padding: 0 20px;
+		.card {
+			width: calc((100% / 2) - 1px);
+		}
 	}
 }
-@media (max-width: 480px) {
+
+@media (max-width: 440px) {
 	.content {
-		max-width: 210px;
+		padding: 0 25px;
 
 		&_title {
 			text-align: center;
+		}
+		.card {
+			width: 100%;
 		}
 	}
 }

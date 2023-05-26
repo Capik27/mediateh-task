@@ -20,6 +20,7 @@ export default {
 
 <style lang="scss">
 @import "@/utils/colorVars.scss";
+@import "@/utils/fontInter.scss";
 .navbar {
 	width: 100%;
 	height: 83px;
@@ -36,29 +37,14 @@ export default {
 	}
 }
 
-@media (max-width: 1440px) {
+@media (max-width: 1320px) {
 	.navbar_wrapper {
-		max-width: 1054px;
+		padding: 0 20px;
 	}
 }
-@media (max-width: 1200px) {
+@media (max-width: 440px) {
 	.navbar_wrapper {
-		max-width: 844px;
-	}
-}
-@media (max-width: 960px) {
-	.navbar_wrapper {
-		max-width: 634px;
-	}
-}
-@media (max-width: 720px) {
-	.navbar_wrapper {
-		max-width: 424px;
-	}
-}
-@media (max-width: 480px) {
-	.navbar_wrapper {
-		max-width: 210px;
+		padding: 0 20px;
 		justify-content: center;
 	}
 }
