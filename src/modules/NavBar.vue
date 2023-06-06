@@ -1,8 +1,8 @@
 <template>
 	<header>
 		<div class="navbar">
-			<div class="navbar_wrapper">
-				<CartLayout class="navbar_cart" />
+			<div class="navbar__wrapper">
+				<CartLayout />
 			</div>
 		</div>
 	</header>
@@ -26,7 +26,7 @@ export default {
 	height: 83px;
 	background-color: $COLOR_white;
 
-	&_wrapper {
+	&__wrapper {
 		max-width: 1264px;
 		margin: auto;
 		width: 100%;
@@ -38,13 +38,12 @@ export default {
 }
 
 @media (max-width: 1320px) {
-	.navbar_wrapper {
+	.navbar__wrapper {
 		padding: 0 20px;
 	}
 }
 @media (max-width: 440px) {
-	.navbar_wrapper {
-		padding: 0 20px;
+	.navbar__wrapper {
 		justify-content: center;
 	}
 }

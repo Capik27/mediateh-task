@@ -2,15 +2,15 @@
 	<section>
 		<div class="container">
 			<div class="content" v-if="items">
-				<h3 class="content_title">Новинки</h3>
-				<div class="content_items">
+				<h3 class="content__title">Новинки</h3>
+				<div class="content__items">
 					<ItemCard v-for="item in items" :key="item.id" :item="item" />
 				</div>
 			</div>
-			<div class="content_load" v-if="!items && !error">
+			<div class="content__load" v-if="!items && !error">
 				<LoadSpinner />
 			</div>
-			<div class="content_load" v-if="error">
+			<div class="content__load" v-if="error">
 				<h2>{{ error }}</h2>
 			</div>
 		</div>
@@ -71,7 +71,7 @@ export default defineComponent({
 .content {
 	max-width: 1264px;
 
-	&_load {
+	&__load {
 		height: 100vh;
 		display: flex;
 		justify-content: center;
@@ -79,7 +79,7 @@ export default defineComponent({
 		color: $COLOR_darkblue;
 	}
 
-	&_title {
+	&__title {
 		color: $COLOR_darkblue;
 		font-size: 40px;
 		font-weight: 500;
@@ -87,7 +87,7 @@ export default defineComponent({
 		padding: 31px 0px;
 	}
 
-	&_items {
+	&__items {
 		display: flex;
 		justify-content: flex-start;
 		flex-wrap: wrap;
@@ -101,46 +101,41 @@ export default defineComponent({
 	.content {
 		padding: 0 20px;
 		.card {
-			width: calc((100% / 5) - 1px);
+			flex-basis: calc((100% / 5) - 1px);
 		}
 	}
 }
 
 @media (max-width: 990px) {
 	.content {
-		padding: 0 20px;
 		.card {
-			width: calc((100% / 4) - 1px);
+			flex-basis: calc((100% / 4) - 1px);
 		}
 	}
 }
 
 @media (max-width: 805px) {
 	.content {
-		padding: 0 20px;
 		.card {
-			width: calc((100% / 3) - 1px);
+			flex-basis: calc((100% / 3) - 1px);
 		}
 	}
 }
 @media (max-width: 620px) {
 	.content {
-		padding: 0 20px;
 		.card {
-			width: calc((100% / 2) - 1px);
+			flex-basis: calc((100% / 2) - 1px);
 		}
 	}
 }
 
 @media (max-width: 440px) {
 	.content {
-		padding: 0 25px;
-
 		&_title {
 			text-align: center;
 		}
 		.card {
-			width: 100%;
+			flex-basis: 100%;
 		}
 	}
 }

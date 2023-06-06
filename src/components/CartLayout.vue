@@ -1,7 +1,7 @@
 <template>
 	<div class="cart" @click="reset">
-		<img src="@/assets/cart.png" class="cart_icon" alt="cart" />
-		<span class="cart_sum">{{ nws(sumPrice) }} $</span>
+		<img src="@/assets/cart.png" class="cart__icon" alt="cart" />
+		<span class="cart__sum">{{ nws(sumPrice) }} $</span>
 		<RedBudge :value="itemCount" />
 	</div>
 </template>
@@ -50,7 +50,7 @@ export default defineComponent({
 @import "@/utils/colorVars.scss";
 .cart {
 	height: 56px;
-	width: 181px;
+	flex-basis: 181px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -71,12 +71,12 @@ export default defineComponent({
 		background-color: rgba(244, 67, 54, 0.171);
 	}
 
-	&_icon img {
+	&__icon img {
 		width: 24px;
 		height: 24px;
 	}
 
-	&_sum {
+	&__sum {
 		min-width: 60px;
 		font-style: normal;
 		font-weight: 400;
