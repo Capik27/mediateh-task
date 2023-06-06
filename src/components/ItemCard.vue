@@ -1,26 +1,29 @@
 <template>
 	<div class="card" v-if="item">
-		<div class="card_preview">
+		<div class="card__preview">
 			<img :src="item.thumbnail" :alt="item.title" />
 		</div>
-		<div class="card_rating">
-			<div class="card_stars">
+		<div class="card__rating">
+			<div class="card__rating_stars">
 				<img
 					src="@/assets/star.png"
 					alt="star"
-					v-for="(_, index) in new Array(Math.round(this.item.rating))"
+					v-for="(_, index) in new Array(itemRating)"
 					:key="index"
 				/>
 			</div>
-			<span class="card_stars-number">{{ Math.round(item.rating) }}</span>
+			<span class="card__rating_stars-number">{{ itemRating }}</span>
 		</div>
-		<div class="card_title">{{ item.title }}</div>
-		<div class="card_price-info">
-			<div class="card_discount">
-				<div class="card_discount" v-if="item.discountPercentage > 0">
-					<div class="card_discount-price">
+		<div class="card__title">{{ item.title }}</div>
+		<div class="card__price-info">
+			<div class="card__price-info_discount-wrapper">
+				<div
+					class="card__price-info_discount"
+					v-if="item.discountPercentage > 0"
+				>
+					<div class="card__price-info_discount_old-price">
 						<span>{{ nws(Math.round(item.price)) }} $</span>
-						<div class="card_discount-line"></div>
+						<div class="card__price-info_discount-line"></div>
 					</div>
 					<RedBudge
 						:value="`– ${Math.round(item.discountPercentage)}%`"
@@ -29,22 +32,12 @@
 				</div>
 			</div>
 			<div
-				:class="
-					item.discountPercentage ? 'card_price  card_price__hot' : 'card_price'
-				"
+				class="card__price-info_current-price"
+				:class="{
+					'card__price-info_current-price_hot': item.discountPercentage,
+				}"
 			>
-				<!-- eslint-disable no-mixed-spaces-and-tabs  -->
-				{{
-					item.discountPercentage
-						? nws(
-								Math.round(
-									item.price - (item.discountPercentage * item.price) / 100
-								)
-						  )
-						: nws(Math.round(item.price))
-				}}
-				<!-- eslint-disable no-mixed-spaces-and-tabs  -->
-				$
+				{{ nws(currentPrice) }} $
 			</div>
 		</div>
 		<BButton value="В корзину" class="card_buybutton" @click="addItem" />
@@ -52,7 +45,7 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
 import { useStore } from "vuex";
 import numberWithSpaces from "@/utils/numberWithSpaces.js";
 import BButton from "@/components/BButton.vue";
@@ -72,12 +65,23 @@ export default defineComponent({
 	setup(props) {
 		const store = useStore();
 
+		const itemRating = computed(() => Math.round(props.item.rating));
+		const currentPrice = computed(() => {
+			let result = props.item.price;
+			if (props.item.discountPercentage) {
+				result =
+					props.item.price -
+					(props.item.discountPercentage * props.item.price) / 100;
+			}
+			return Math.round(result);
+		});
+
 		const nws = numberWithSpaces;
 		const addItem = () => {
 			store.commit("addItem", props.item);
 		};
 
-		return { addItem, nws };
+		return { currentPrice, itemRating, addItem, nws };
 	},
 });
 </script>
@@ -95,20 +99,30 @@ export default defineComponent({
 	background-color: $COLOR_white;
 	padding: 15px 15px 24px 15px;
 	word-break: break-word;
+	position: relative;
 
-	min-width: 185px;
-	width: calc((100% / 6) - 1px);
-
-	border: 1px solid transparent;
+	flex-basis: calc((100% / 6) - 1px);
 
 	transition: all 0.33s;
 	animation: 0.77s fade linear;
-	&:hover {
+
+	&:before {
+		content: "";
+		position: absolute;
+		left: -1px;
+		top: -1px;
+		height: 100%;
+		width: 100%;
+		border: 1px solid transparent;
+		transition: all 0.33s;
+		z-index: 1;
+	}
+
+	&:hover:before {
 		border-color: $COLOR_greyligth;
 	}
 
-	&_preview {
-		// width: 141.52px;
+	&__preview {
 		height: 145px;
 		overflow: hidden;
 		img {
@@ -118,25 +132,32 @@ export default defineComponent({
 		}
 	}
 
-	&_stars {
+	&__rating {
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		height: 20px;
+		gap: 8px;
 
-		img {
-			width: 16px;
-			height: 16px;
-		}
+		&_stars {
+			display: flex;
+			align-items: center;
+			justify-content: center;
 
-		&-number {
-			color: $COLOR_greyligth;
-			font-weight: 400;
-			font-size: 14px;
-			line-height: 20px;
+			img {
+				width: 16px;
+				height: 16px;
+			}
+
+			&-number {
+				color: $COLOR_greyligth;
+				font-weight: 400;
+				font-size: 14px;
+				line-height: 20px;
+			}
 		}
 	}
 
-	&_title {
+	&__title {
 		height: 60px;
 		overflow: hidden;
 		font-family: "Open Sans", sans-serif;
@@ -159,54 +180,53 @@ export default defineComponent({
 		box-orient: vertical;
 	}
 
-	&_info {
-		display: flex;
-	}
-
-	&_price {
-		padding-top: 4px;
-		font-size: 26px;
-		font-weight: 500;
-		line-height: 32px;
-		letter-spacing: 0.1rem;
-
-		&__hot {
-			color: $COLOR_red;
-		}
-	}
-
-	&_discount {
-		display: flex;
-		height: 20px;
-		gap: 8px;
-
-		&-price {
+	&__price-info {
+		%ffbox {
 			display: flex;
-			align-items: center;
-			position: relative;
-			span {
-				font-size: 14px;
-				font-weight: 400;
-				color: $COLOR_greyligth;
-				line-height: 20px;
-				letter-spacing: 0.05rem;
+			height: 20px;
+			gap: 8px;
+		}
+
+		&_discount {
+			@extend %ffbox;
+
+			&-wrapper {
+				@extend %ffbox;
+			}
+
+			&_old-price {
+				display: flex;
+				align-items: center;
+				position: relative;
+				span {
+					font-size: 14px;
+					font-weight: 400;
+					color: $COLOR_greyligth;
+					line-height: 20px;
+					letter-spacing: 0.05rem;
+				}
+			}
+			&-line {
+				position: absolute;
+				justify-self: center;
+				width: 100%;
+				top: 49%;
+				left: 0;
+				border-top: 1px solid $COLOR_red;
 			}
 		}
-		&-line {
-			position: absolute;
-			justify-self: center;
-			width: 100%;
-			top: 49%;
-			left: 0;
-			border-top: 1px solid $COLOR_red;
-		}
-	}
 
-	&_rating {
-		display: flex;
-		align-items: center;
-		height: 20px;
-		gap: 8px;
+		&_current-price {
+			padding-top: 4px;
+			font-size: 26px;
+			font-weight: 500;
+			line-height: 32px;
+			letter-spacing: 0.1rem;
+
+			&_hot {
+				color: $COLOR_red;
+			}
+		}
 	}
 
 	@keyframes fade {

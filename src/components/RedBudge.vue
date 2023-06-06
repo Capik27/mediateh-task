@@ -1,5 +1,5 @@
 <template>
-	<div :class="type === 'cube' ? 'budge_cube' : 'budge'">
+	<div :class="{ budge_cube: type === 'cube', budge: type != 'cube' }">
 		<span>{{ value !== "undefined" ? value : "" }}</span>
 	</div>
 </template>
