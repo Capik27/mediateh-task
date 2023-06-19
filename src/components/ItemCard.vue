@@ -1,46 +1,48 @@
 <template>
 	<div class="card" v-if="item">
-		<div class="card__preview">
-			<img :src="item.thumbnail" :alt="item.title" />
-		</div>
-		<div class="card__rating">
-			<div class="card__rating_stars">
-				<img
-					src="@/assets/star.png"
-					alt="star"
-					v-for="(_, index) in new Array(itemRating)"
-					:key="index"
-				/>
+		<div class="card__wrapper">
+			<div class="card__preview">
+				<img :src="item.thumbnail" :alt="item.title" />
 			</div>
-			<span class="card__rating_stars-number">{{ itemRating }}</span>
-		</div>
-		<div class="card__title">{{ item.title }}</div>
-		<div class="card__price-info">
-			<div class="card__price-info_discount-wrapper">
-				<div
-					class="card__price-info_discount"
-					v-if="item.discountPercentage > 0"
-				>
-					<div class="card__price-info_discount_old-price">
-						<span>{{ nws(Math.round(item.price)) }} $</span>
-						<div class="card__price-info_discount-line"></div>
-					</div>
-					<RedBudge
-						:value="`– ${Math.round(item.discountPercentage)}%`"
-						type="cube"
+			<div class="card__rating">
+				<div class="card__rating_stars">
+					<img
+						src="@/assets/star.png"
+						alt="star"
+						v-for="(_, index) in new Array(itemRating)"
+						:key="index"
 					/>
 				</div>
+				<span class="card__rating_stars-number">{{ itemRating }}</span>
 			</div>
-			<div
-				class="card__price-info_current-price"
-				:class="{
-					'card__price-info_current-price_hot': item.discountPercentage,
-				}"
-			>
-				{{ nws(currentPrice) }} $
+			<div class="card__title">{{ item.title }}</div>
+			<div class="card__price-info">
+				<div class="card__price-info_discount-wrapper">
+					<div
+						class="card__price-info_discount"
+						v-if="item.discountPercentage > 0"
+					>
+						<div class="card__price-info_discount_old-price">
+							<span>{{ nws(Math.round(item.price)) }} $</span>
+							<div class="card__price-info_discount-line"></div>
+						</div>
+						<RedBudge
+							:value="`– ${Math.round(item.discountPercentage)}%`"
+							type="cube"
+						/>
+					</div>
+				</div>
+				<div
+					class="card__price-info_current-price"
+					:class="{
+						'card__price-info_current-price_hot': item.discountPercentage,
+					}"
+				>
+					{{ nws(currentPrice) }} $
+				</div>
 			</div>
+			<BButton value="В корзину" class="card_buybutton" @click="addItem" />
 		</div>
-		<BButton value="В корзину" class="card_buybutton" @click="addItem" />
 	</div>
 </template>
 
@@ -89,36 +91,89 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import "@/utils/colorVars.scss";
 @import "@/utils/fontInter.scss";
+
+%border {
+	position: absolute;
+}
+
 .card {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	gap: 16px;
-	color: $COLOR_grey;
-	background-color: $COLOR_white;
-	padding: 15px 15px 24px 15px;
-	word-break: break-word;
 	position: relative;
 
-	flex-basis: calc((100% / 6) - 1px);
+	&__wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		color: $COLOR_grey;
+		background-color: $COLOR_white;
+		padding: 15px 15px 24px 15px;
+		word-break: break-word;
+		position: relative;
 
-	transition: all 0.33s;
-	animation: 0.77s fade linear;
+		flex-basis: calc((100% / 6) - 1px);
 
+		transition: all 0.33s;
+		animation: 0.77s fade linear;
+
+		// top & bottom borders
+		&:before {
+			content: "";
+			position: absolute;
+			width: 100%;
+			top: -1px;
+
+			border-top: 1px solid transparent;
+			transition: all 0.33s;
+			z-index: 1;
+		}
+		&:after {
+			content: "";
+			position: absolute;
+			width: 100%;
+			bottom: -1px;
+
+			border-bottom: 1px solid transparent;
+			transition: all 0.33s;
+			z-index: 1;
+		}
+
+		&:hover:after {
+			border-color: $COLOR_greyligth;
+		}
+		&:hover:before {
+			border-color: $COLOR_greyligth;
+		}
+	}
+
+	// right & left borders
 	&:before {
 		content: "";
 		position: absolute;
-		left: -1px;
+		height: calc(100% + 2px);
 		top: -1px;
-		height: 100%;
-		width: 100%;
-		border: 1px solid transparent;
+		right: -1px;
+
+		border-right: 1px solid transparent;
+		transition: all 0.33s;
+		z-index: 1;
+	}
+	&:after {
+		content: "";
+		position: absolute;
+		height: calc(100% + 2px);
+		top: -1px;
+		left: -1px;
+
+		border-left: 1px solid transparent;
 		transition: all 0.33s;
 		z-index: 1;
 	}
 
 	&:hover:before {
+		border-color: $COLOR_greyligth;
+	}
+	&:hover:after {
 		border-color: $COLOR_greyligth;
 	}
 
