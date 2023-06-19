@@ -89,12 +89,23 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import "@/utils/colorVars.scss";
 @import "@/utils/fontInter.scss";
-
-%border {
-	position: absolute;
-}
-
 .card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	color: $COLOR_grey;
+	background-color: $COLOR_white;
+	padding: 15px 15px 24px 15px;
+	word-break: break-word;
+	position: relative;
+
+	flex-basis: calc((100% / 6) - 1px);
+
+	transition: all 0.33s;
+	animation: 0.77s fade linear;
+
 	&:before {
 		content: "";
 		position: absolute;
