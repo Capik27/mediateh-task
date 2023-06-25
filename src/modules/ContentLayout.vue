@@ -45,6 +45,7 @@ export default defineComponent({
 				json.products[4].title =
 					"Супер длинное название, чтобы не влезало в эту сроку, однако этого может не достаточно ;) ";
 				//
+				//console.log(json.products); json.products.images
 
 				items.value = json.products;
 			} else {

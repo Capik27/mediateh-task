@@ -1,7 +1,7 @@
 <template>
 	<div class="card" v-if="item">
 		<div class="card__preview">
-			<img :src="item.thumbnail" :alt="item.title" />
+			<hover-slider :images="item.images" />
 		</div>
 		<div class="card__rating">
 			<div class="card__rating_stars">
@@ -50,11 +50,13 @@ import { useStore } from "vuex";
 import numberWithSpaces from "@/utils/numberWithSpaces.js";
 import BButton from "@/components/BButton.vue";
 import RedBudge from "@/components/RedBudge.vue";
+import HoverSlider from "@/components/HoverSlider.vue";
 export default defineComponent({
 	name: "ItemCard",
 	components: {
 		BButton,
 		RedBudge,
+		HoverSlider,
 	},
 	props: {
 		item: {
@@ -125,7 +127,9 @@ export default defineComponent({
 
 	&__preview {
 		height: 145px;
-		overflow: hidden;
+
+		width: 100%;
+
 		img {
 			object-fit: cover;
 			width: 100%;
