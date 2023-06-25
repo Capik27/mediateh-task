@@ -4,6 +4,7 @@
 			<div
 				v-for="(_, index) in images"
 				:key="index"
+				:id="index"
 				:class="[
 					`hover-slider__sensor_item`,
 					{
@@ -11,7 +12,8 @@
 							current === index && images.length > 1,
 					},
 				]"
-				@mouseenter="() => onEnter(index)"
+				@pointerenter="() => onEnter(index)"
+				@touchmove="(e) => onTouch(e)"
 			/>
 		</span>
 		<div ref="parent" :class="`hover-slider__layout`">
@@ -57,7 +59,16 @@ export default defineComponent({
 			sensor.value.children[index].classList.add(cnSensActive);
 		};
 
-		return { parent, sensor, current, onEnter };
+		const onTouch = (e) => {
+			const touch = e.changedTouches[0];
+			const target = document.elementFromPoint(touch.clientX, touch.clientY);
+			if (sensor.value.contains(target)) {
+				const id = Number(target.id);
+				if (id > -1 && current.value !== id) onEnter(id);
+			}
+		};
+
+		return { parent, sensor, current, onEnter, onTouch };
 	},
 });
 </script>
